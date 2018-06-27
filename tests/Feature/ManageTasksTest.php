@@ -51,4 +51,16 @@ class ManageTasksTest extends TestCase
     public function user_can_delete_an_existing_task(){
         $this->assertTrue(true);
     }
+
+    /** @test */
+    public function task_entry_must_pass_validation(){
+        //submit form untuk membuat task baru  dengan field name dan description kosong
+        $this->post('/tasks', [
+            'name'          => '',
+            'description'   => '', 
+        ]);
+
+        //cek pada session apakah ada error untuk field nama dan description
+        $this->assertSessionHasErrors(['name', 'description']);
+    }
 }
