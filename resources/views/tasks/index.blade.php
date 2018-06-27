@@ -24,7 +24,14 @@
         @foreach ($tasks as $task)
             <li>
                 {{ $task->name }} <br>
-                {{ $task->description }}
+                {{ $task->description }} <br>
+                <a
+                    href="{{ url('tasks') }}?action=edit&id={{ $task->id }}"
+                    id = "edit_task_{{ $task->id }}"
+                    class="pull-right"
+                >
+                edit
+                </a>
             </li>
         @endforeach
     </ul>

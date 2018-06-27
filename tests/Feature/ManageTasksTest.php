@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Task;
 
 class ManageTasksTest extends TestCase
 {
@@ -39,7 +40,32 @@ class ManageTasksTest extends TestCase
 
     /** @test */
     public function user_can_browser_tasks_index_page(){
-        $this->assertTrue(true);
+        //Generate 3 record task pad ataable 'tasks'
+        $tasks = factory(Task::class, 3)->create();
+
+        //User membua halaman daftar tasks
+        $this->visit('/tasks');
+        
+        //User melihat ketiga task tampil pada halaman
+        $this->see($tasks[0]->name);
+        $this->see($tasks[1]->name);
+        $this->see($tasks[2]->name);
+
+        //user melihat link untuk edit task pada masing-masing item task
+        $this->seeElement('a', [
+            'id'    => 'edit_task_'.$tasks[0]->id,
+            'href'  => url('tasks?action=edit&id='.$tasks[0]->id)
+        ]);
+
+        $this->seeElement('a', [
+            'id'    => 'edit_task_'.$tasks[1]->id,
+            'href'  => url('tasks?action=edit&id='.$tasks[1]->id)
+        ]);
+
+        $this->seeElement('a', [
+            'id'    => 'edit_task_'.$tasks[2]->id,
+            'href'  => url('tasks?action=edit&id='.$tasks[2]->id)
+        ]);
     }
 
     /** @test */
